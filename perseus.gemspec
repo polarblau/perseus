@@ -16,4 +16,9 @@ Gem::Specification.new do |s|
   s.platform      = Gem::Platform::RUBY
   s.require_paths = ['lib']
   s.rubyforge_project = '[none]'
+
+  s.add_dependency 'sass'
+  s.add_dependency 'racc'
+  s.add_dependency 'rexical'
+  s.add_dependency 'csspool'
 end
