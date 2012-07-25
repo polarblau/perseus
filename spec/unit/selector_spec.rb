@@ -98,7 +98,36 @@ describe Perseus::Selector do
   describe '#attributes' do
 
     it 'should should include the id' do
-       @selector.to_html.must_match /^<div id="foo">/
+      @selector.attributes.must_include :id
+    end
+
+    it 'should should return the correct value for id' do
+      @selector.attributes[:id].must_equal 'foo'
+    end
+
+    it 'should should not include a class' do
+      @selector.attributes.wont_include :class
+    end
+
+    it 'should should include a class if defined' do
+      @selector = Perseus::Selector.new('.bar')
+      @selector.attributes.must_include :class
+      @selector.attributes[:class].must_equal 'bar'
+    end
+
+    it 'should should include a class as String' do
+      @selector = Perseus::Selector.new('.bar')
+      @selector.attributes[:class].must_be_kind_of String
+    end
+
+    it 'should should include multiple classes' do
+      @selector = Perseus::Selector.new('.bar.bat')
+      @selector.attributes.must_include :class
+    end
+
+    it 'should should include multiple classes joined by whitespace' do
+      @selector = Perseus::Selector.new('.bar.bat')
+      @selector.attributes[:class].must_equal 'bar bat'
     end
 
   end

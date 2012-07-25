@@ -16,6 +16,7 @@ module Perseus
     end
 
     def id
+      # TODO: use match?
       @text.scan(/\#(#{VALID_CLASS_NAME})/).flatten.first
     end
 
@@ -31,15 +32,12 @@ module Perseus
       !classes.empty?
     end
 
-  private
-
     def attributes
-      attrs, attrs_s = {}, ''
+      # TODO: merge in attributes defined in selector via [a=b]
+      attrs         = {}
       attrs[:id]    = id if has_id?
-      attrs[:class] = classes.join if has_classes?
-      attrs.each {|k, v| attrs_s << "#{k}=\"#{v}\"" }
-      attrs_s = ' ' + attrs_s unless attrs_s.empty?
-      attrs_s
+      attrs[:class] = classes.join(' ') if has_classes?
+      attrs
     end
 
   end
