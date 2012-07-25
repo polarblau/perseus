@@ -1,3 +1,5 @@
+require 'sass'
+
 module Perseus
   class Parser
 
