@@ -1,8 +1,8 @@
 module Perseus
   class Selector
 
-    # TODO: Support for pseudo selectors
-    # TODO: Support for first-child, etc.
+    # TODO: Support for groups
+    # TODO: Support for options
 
     CLASS_IDENTIFIER  = '.'
     ID_IDENTIFIER     = '#'
@@ -28,6 +28,10 @@ module Perseus
 
     def classes
       @text.scan(VALID_CLASS_NAMES).flatten
+    end
+
+    def pseudo
+      @text.scan(/.*\:+([\w-]*)/).flatten.first
     end
 
     def has_id?

@@ -95,6 +95,19 @@ describe Perseus::Selector do
     end
   end
 
+  describe '#pseudo' do
+
+    it 'returns the pseudo selector if defined' do
+      @selector = Perseus::Selector.new('li:first-child')
+      @selector.pseudo.must_equal 'first-child'
+    end
+
+    it 'returns nil if no pseudo selector is defined' do
+      @selector.pseudo.must_be_nil
+    end
+
+  end
+
   describe '#inline_attributes' do
 
     it 'should return a hash' do
