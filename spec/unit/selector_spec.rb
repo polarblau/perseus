@@ -152,6 +152,7 @@ describe Perseus::Selector do
       @selector = Perseus::Selector.new('img.bar[alt=foo]')
       @selector.attributes.must_include 'alt'
       @selector.attributes.must_include 'class'
+      @selector.attributes.must_equal({ 'class' => 'bar', 'alt' => 'foo' })
     end
 
   end
@@ -169,6 +170,41 @@ describe Perseus::Selector do
     it 'returns the tag if it can be found' do
       @selector = Perseus::Selector.new('img')
       @selector.tag.must_equal 'img'
+    end
+
+    it 'returns the tag if a class is present' do
+      @selector = Perseus::Selector.new('img.foo')
+      @selector.tag.must_equal 'img'
+    end
+
+    it 'returns the tag if multiple classes are present' do
+      @selector = Perseus::Selector.new('img.foo.bar')
+      @selector.tag.must_equal 'img'
+    end
+
+    it 'returns the tag if multiple classes and an id are present' do
+      @selector = Perseus::Selector.new('img#bat.foo.bar')
+      @selector.tag.must_equal 'img'
+    end
+
+    it 'returns the tag if an id is present' do
+      @selector = Perseus::Selector.new('img#foo')
+      @selector.tag.must_equal 'img'
+    end
+
+    it 'returns the tag if an attribute is present' do
+      @selector = Perseus::Selector.new('img[alt=foo]')
+      @selector.tag.must_equal 'img'
+    end
+
+    it 'returns the tag if an attribute, classes and an id are present' do
+      @selector = Perseus::Selector.new('img#bar.foo.bar[alt=foo]')
+      @selector.tag.must_equal 'img'
+    end
+
+    it 'returns the tag if a pseudo selector is present' do
+      @selector = Perseus::Selector.new('a:hover')
+      @selector.tag.must_equal 'a'
     end
 
   end

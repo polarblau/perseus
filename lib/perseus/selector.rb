@@ -1,6 +1,9 @@
 module Perseus
   class Selector
 
+    # TODO: Support for pseudo selectors
+    # TODO: Support for first-child, etc.
+
     CLASS_IDENTIFIER  = '.'
     ID_IDENTIFIER     = '#'
     VALID_CLASS_NAMES = /\.(-?[_a-zA-Z]+[\w-]*)/
@@ -42,7 +45,6 @@ module Perseus
 
     def attributes
       # TODO: merge in attributes from options (doc comments)
-      # TODO: merge in attributes defined in selector via [a=b]
       attrs          = inline_attributes
       attrs['id']    = id if has_id?
       attrs['class'] = classes.join(' ') if has_classes?
@@ -51,15 +53,13 @@ module Perseus
 
     def tag
       # does the selector start with a class or id identifier?
-      if [CLASS_IDENTIFIER, CLASS_IDENTIFIER].include? @text[0]
-        DEFAULT_TAG
-      elsif @text.include? CLASS_IDENTIFIER
-        @text.split(CLASS_IDENTIFIER).first
-      elsif @text.include? ID_IDENTIFIER
-        @text.split(ID_IDENTIFIER).first
-      else
-        DEFAULT_TAG
-      end
+      matched_tag =
+        if [CLASS_IDENTIFIER, CLASS_IDENTIFIER].include? @text[0]
+          DEFAULT_TAG
+        else
+          @text.scan(/(^[\w-]*)[\.#\[\:]?/).flatten.first
+        end
+      matched_tag && !matched_tag.empty? ? matched_tag : DEFAULT_TAG
     end
 
   end
