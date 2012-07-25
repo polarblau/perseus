@@ -16,8 +16,8 @@ describe Perseus::Selector do
 
   describe '#to_html' do
 
-    it 'returns a div tag by default' do
-      @selector.to_html.must_match /^<div/
+    it 'returns a String' do
+      @selector.to_html.must_be_kind_of String
     end
 
   end
@@ -95,39 +95,80 @@ describe Perseus::Selector do
     end
   end
 
+  describe '#inline_attributes' do
+
+    it 'should return a hash' do
+      @selector.inline_attributes.must_be_kind_of Hash
+    end
+
+    it 'should return a key:value dictionary of the attribute' do
+      @selector = Perseus::Selector.new('img[alt=foo]')
+      @selector.inline_attributes.must_equal({'alt' => 'foo'})
+    end
+  end
+
   describe '#attributes' do
 
     it 'should should include the id' do
-      @selector.attributes.must_include :id
+      @selector.attributes.must_include 'id'
     end
 
     it 'should should return the correct value for id' do
-      @selector.attributes[:id].must_equal 'foo'
+      @selector.attributes['id'].must_equal 'foo'
     end
 
     it 'should should not include a class' do
-      @selector.attributes.wont_include :class
+      @selector.attributes.wont_include 'class'
     end
 
     it 'should should include a class if defined' do
       @selector = Perseus::Selector.new('.bar')
-      @selector.attributes.must_include :class
-      @selector.attributes[:class].must_equal 'bar'
+      @selector.attributes.must_include 'class'
+      @selector.attributes['class'].must_equal 'bar'
     end
 
     it 'should should include a class as String' do
       @selector = Perseus::Selector.new('.bar')
-      @selector.attributes[:class].must_be_kind_of String
+      @selector.attributes['class'].must_be_kind_of String
     end
 
     it 'should should include multiple classes' do
       @selector = Perseus::Selector.new('.bar.bat')
-      @selector.attributes.must_include :class
+      @selector.attributes.must_include 'class'
     end
 
     it 'should should include multiple classes joined by whitespace' do
       @selector = Perseus::Selector.new('.bar.bat')
-      @selector.attributes[:class].must_equal 'bar bat'
+      @selector.attributes['class'].must_equal 'bar bat'
+    end
+
+    it 'should include inline attributes' do
+      @selector = Perseus::Selector.new('img[alt=foo]')
+      @selector.attributes.must_include 'alt'
+      @selector.attributes['alt'].must_equal 'foo'
+    end
+
+    it 'should include inline- as well as regular attributes' do
+      @selector = Perseus::Selector.new('img.bar[alt=foo]')
+      @selector.attributes.must_include 'alt'
+      @selector.attributes.must_include 'class'
+    end
+
+  end
+
+  describe '#tag' do
+
+    it 'returns a String' do
+      @selector.tag.must_be_kind_of String
+    end
+
+    it 'returns a div if no other tag can be found' do
+      @selector.tag.must_equal 'div'
+    end
+
+    it 'returns the tag if it can be found' do
+      @selector = Perseus::Selector.new('img')
+      @selector.tag.must_equal 'img'
     end
 
   end
