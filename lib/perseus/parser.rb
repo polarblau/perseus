@@ -3,18 +3,10 @@ require 'sass'
 module Perseus
   class Parser
 
-
-#   SWITCHES = {
-#      '#' => :id,
-#      '.' => :class,
-#      '[' => :attribute,
-#      ':' => :pseudo,
-#      '>' => :child,
-#      '~' => :sibling,
-#      '+' => :brother,
-#      ' ' => :descendant,
-#      ',' => :new_selector
-#    }
+    # '>' => :child,
+    # '~' => :sibling,
+    # '+' => :brother,
+    # ',' => :new_selector
 
     def initialize(styles)
       # TODO: accept file for styles (detect syntax from extension?)
