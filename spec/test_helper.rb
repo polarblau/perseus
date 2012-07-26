@@ -10,10 +10,6 @@ require 'sass'
 $:.unshift lib_dir unless $:.include?(lib_dir)
 
 require 'perseus'
-require 'perseus/parser'
-require 'perseus/compiler'
-require 'perseus/selector'
-require 'perseus/tag'
 
 def fixture(file, type = :sass)
   File.read fixture_path(file, type)

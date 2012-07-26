@@ -13,7 +13,7 @@ module Perseus
 
     attr_accessor :children, :text
 
-    def initialize(text)
+    def initialize(text, options = {})
       @text     = text
       @children = []
     end
