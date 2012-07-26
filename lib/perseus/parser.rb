@@ -9,23 +9,43 @@ module Perseus
     # ',' => :new_selector
 
     def initialize(styles)
-      # TODO: accept file for styles (detect syntax from extension?)
       # TODO: options, syntax
-      # TODO: SASS is a dependency, should we check if it's defined?
-      # TODO: filter rule types here already?
       @tree = Sass::Engine.new(styles, :syntax => :sass).to_tree
+      @options_buffer = {}
     end
 
     # TODO: ensure that the first rule is of the correct type
     # TODO: deal with child, sibling and brother selectors
     # TODO: deal with new selector, starting with comma
-    def parse(node = @tree.children.first, parent = nil)
+    # TODO: deal with groups
+    # TODO: deal with option comments
+    def parse
+      root_nodes      = @tree.children.dup
+      root_selectors  = []
 
-      child_nodes = node.children.select {|c| c.is_a? Sass::Tree::RuleNode }
+
+      until root_nodes.empty?
+        if (node = root_nodes.shift).is_a? Sass::Tree::CommentNode
+          extract_options_from_comment(node)
+        else
+          root_selectors << parse_node(node)
+        end
+      end
+
+      root_selectors
+    end
+
+    def parse_node(node, parent = nil)
+
+      if node.is_a? Sass::Tree::CommentNode
+        extract_options_from_comment(node) and return
+      end
+
+      child_nodes = node.children.select {|c|
+        [Sass::Tree::RuleNode, Sass::Tree::CommentNode].include? c.class }
       selectors   = node.rule.first.split
 
-      parent ||= Perseus::Selector.new(selectors.shift)
-      @root  ||= parent
+      parent ||= Perseus::Selector.new(selectors.shift, @options_buffer.flush!)
 
       # expand selectors from horizontal to vertical
       # '#foo .bar' => ['#foo, children: ['.bar, children: []]]
@@ -34,10 +54,26 @@ module Perseus
         parent = parent.children.last if index == selectors.size - 1
       end
 
-      parse(child_nodes.shift, parent) until child_nodes.empty?
+      parse_node(child_nodes.shift, parent) until child_nodes.empty?
 
-      @root
+      parent
     end
 
+    def extract_options_from_comment(node)
+      node.value.each do |value|
+        key, value = value.scan(/@([\w-]*):(.*)/).flatten
+        @options_buffer[key] = value.strip
+      end
+    end
+
+  end
+end
+
+# TODO: move into own file, tests
+class Hash
+  def flush!
+    contents = self.dup
+    self.clear
+    contents
   end
 end
