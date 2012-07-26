@@ -1,12 +1,12 @@
 module Perseus
   class Compiler
 
-    def initialize(root)
-      @root = root
+    def initialize(root_selectors)
+      @root_selectors = root_selectors
     end
 
     def compile
-      @root.to_html
+      @root_selectors.map(&:to_html).join('')
     end
 
   end

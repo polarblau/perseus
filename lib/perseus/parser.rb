@@ -23,7 +23,6 @@ module Perseus
       root_nodes      = @tree.children.dup
       root_selectors  = []
 
-
       until root_nodes.empty?
         if (node = root_nodes.shift).is_a? Sass::Tree::CommentNode
           extract_options_from_comment(node)

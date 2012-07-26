@@ -9,9 +9,11 @@ module Perseus
     # TODO: caching --> only parse and compile if files have changed
     # TODO: accept file for styles (detect syntax from extension?)
     def initialize(styles)
-      root      = Perseus::Parser.new(styles)
-      @compiler = Perseus::Compiler.new(root)
+      parser    = Perseus::Parser.new(styles)
+      @compiler = Perseus::Compiler.new(parser.parse)
+    end
 
+    def render
       @compiler.compile
     end
 
