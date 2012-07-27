@@ -16,6 +16,7 @@ module Perseus
     def initialize(text, options = {})
       @text     = text
       @children = []
+      puts '::selector', options unless options.empty?
     end
 
     def to_html(level = 0)

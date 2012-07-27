@@ -37,7 +37,8 @@ module Perseus
     def parse_node(node, parent = nil)
 
       if node.is_a? Sass::Tree::CommentNode
-        extract_options_from_comment(node) and return
+        extract_options_from_comment(node)
+        return
       end
 
       child_nodes = node.children.select {|c|
@@ -45,12 +46,10 @@ module Perseus
       selectors   = node.rule.first.split
 
       parent    ||= Perseus::Selector.new(selectors.shift, @options_buffer.flush!)
-      root      ||= parent
+      root        = parent
 
-      # expand selectors from horizontal to vertical
-      # '#foo .bar' => ['#foo, children: ['.bar, children: []]]
       selectors.each_with_index do |selector, index|
-        parent.children << Perseus::Selector.new(selector)
+        parent.children << Perseus::Selector.new(selector, @options_buffer.flush!)
         parent = parent.children.last if index == selectors.size - 1
       end
 
@@ -60,20 +59,11 @@ module Perseus
     end
 
     def extract_options_from_comment(node)
-      node.value.each do |value|
-        key, value = value.scan(/@([\w-]*):(.*)/).flatten
+      node.value.first.split("\n").each do |line|
+        key, value = line.scan(/@([\w-]*):(.*)/).flatten
         @options_buffer[key] = value.strip
       end
     end
 
-  end
-end
-
-# TODO: move into own file, tests
-class Hash
-  def flush!
-    contents = self.dup
-    self.clear
-    contents
   end
 end
