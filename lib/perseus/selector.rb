@@ -2,7 +2,6 @@ module Perseus
   class Selector
 
     # TODO: Support for groups
-    # TODO: Support for options
 
     CLASS_IDENTIFIER  = '.'
     ID_IDENTIFIER     = '#'
@@ -16,11 +15,12 @@ module Perseus
     def initialize(text, options = {})
       @text     = text
       @children = []
-      puts '::selector', options unless options.empty?
+      # TODO: filter options not used in Tag
+      @options  = options
     end
 
     def to_html(level = 0)
-      Perseus::Tag.new(self).render(level)
+      Perseus::Tag.new(self, @options).render(level)
     end
 
     def id

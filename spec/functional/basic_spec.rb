@@ -5,6 +5,7 @@ require File.dirname(__FILE__) + '/../test_helper'
 describe 'Basic conversion' do
 
   it 'should convert to correct html' do
+    skip
     styles        = fixture :basic
     expected_html = fixture :basic, :html
     engine        = Perseus::Engine.new(styles)
@@ -16,6 +17,7 @@ end
 describe 'Complex conversion' do
 
   it 'should convert to correct html' do
+    skip
     styles        = fixture :complex
     expected_html = fixture :complex, :html
     engine        = Perseus::Engine.new(styles)

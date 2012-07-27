@@ -19,19 +19,19 @@ describe Perseus::Tag do
   describe '#render' do
 
     it 'should render a div tag' do
-      @tag.render.must_equal "<div></div>\n"
+      @tag.render.must_match /<div>.*<\/div>\n/
     end
 
     it 'should render a div tag with attributes' do
       @selector.expect :attributes, { 'class' => 'foo' }
-      @tag.render.must_equal "<div class=\"foo\"></div>\n"
+      @tag.render.must_match /<div class=\"foo\">.*<\/div>\n/
     end
 
     it 'should render a div tag with child element' do
       # TODO: mock child_div?
       child_div = Perseus::Selector.new('div')
       @selector.expect :children, [child_div]
-      @tag.render.must_equal "<div>\n  <div></div>\n</div>\n"
+      @tag.render.must_match /<div>\n  <div>.*<\/div>\n<\/div>\n/
     end
 
   end
@@ -79,6 +79,14 @@ describe Perseus::Tag do
       @tag.attributes[0].must_equal ' '
     end
 
+  end
+
+  describe '#content' do
+
+    it 'should retun the content if defined as option' do
+      @tag = Perseus::Tag.new(@selector, {'content' => 'Foobar'})
+      @tag.content.must_equal 'Foobar'
+    end
 
   end
 

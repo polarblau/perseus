@@ -4,8 +4,9 @@ module Perseus
     SELF_CLOSING_TAGS = %w(img br hr)
 
     # selector must be an instance of Perseus::Selector
-    def initialize(selector)
+    def initialize(selector, options = {})
       @selector = selector
+      @options  = options
     end
 
     def render(level = 0)
@@ -19,9 +20,7 @@ module Perseus
           html << @selector.children.map {|c| c.to_html(level + 1) }.join("\n")
           html << "#{indent(level)}</#{name}>\n"
         else
-          html << ">"
-          # TODO: content
-          html << "</#{name}>\n"
+          html << ">#{content}</#{name}>\n"
         end
       end
       html
@@ -37,6 +36,10 @@ module Perseus
 
     def attributes
       @selector.attributes.inject('') {|m, p| m << " #{p[0]}=\"#{p[1]}\""}
+    end
+
+    def content
+      @options['content'] || 'CONTENT'
     end
 
   private
