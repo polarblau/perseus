@@ -44,7 +44,8 @@ module Perseus
         [Sass::Tree::RuleNode, Sass::Tree::CommentNode].include? c.class }
       selectors   = node.rule.first.split
 
-      parent ||= Perseus::Selector.new(selectors.shift, @options_buffer.flush!)
+      parent    ||= Perseus::Selector.new(selectors.shift, @options_buffer.flush!)
+      root      ||= parent
 
       # expand selectors from horizontal to vertical
       # '#foo .bar' => ['#foo, children: ['.bar, children: []]]
@@ -55,7 +56,7 @@ module Perseus
 
       parse_node(child_nodes.shift, parent) until child_nodes.empty?
 
-      parent
+      root
     end
 
     def extract_options_from_comment(node)

@@ -19,6 +19,7 @@ describe 'Complex conversion' do
     styles        = fixture :complex
     expected_html = fixture :complex, :html
     engine        = Perseus::Engine.new(styles)
+    puts engine.render
     engine.render.must_equal expected_html
   end
 

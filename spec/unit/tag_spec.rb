@@ -31,7 +31,7 @@ describe Perseus::Tag do
       # TODO: mock child_div?
       child_div = Perseus::Selector.new('div')
       @selector.expect :children, [child_div]
-      @tag.render.must_equal "<div>\n<div></div>\n</div>\n"
+      @tag.render.must_equal "<div>\n  <div></div>\n</div>\n"
     end
 
   end

@@ -18,8 +18,8 @@ module Perseus
       @children = []
     end
 
-    def to_html
-      Perseus::Tag.new(self).render
+    def to_html(level = 0)
+      Perseus::Tag.new(self).render(level)
     end
 
     def id

@@ -6,7 +6,7 @@ module Perseus
     end
 
     def compile
-      @root_selectors.map(&:to_html).join('')
+      @root_selectors.map(&:to_html).join("\n")
     end
 
   end

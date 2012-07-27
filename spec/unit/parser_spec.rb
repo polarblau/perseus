@@ -56,7 +56,7 @@ describe Perseus::Parser do
       end
 
       it 'the first root node must be have the text .bat' do
-        @parser.parse.first.text.must_equal '.bat'
+        @parser.parse.first.text.must_equal '.foo'
       end
 
     end
