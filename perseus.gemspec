@@ -19,4 +19,6 @@ Gem::Specification.new do |s|
 
   s.add_dependency 'sass'
   s.add_dependency 'faker'
+
+  s.add_development_dependency 'minitest'
 end

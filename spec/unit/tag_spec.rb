@@ -5,32 +5,41 @@ describe Perseus::Tag do
   before :each do
     @selector = MiniTest::Mock.new
     @tag      = Perseus::Tag.new(@selector)
-    # defaults
-    @selector.expect :tag, 'div'
-    @selector.expect :attributes, {}
-    @selector.expect :children, []
+  end
+
+  # TODO: this clearly sucks and should be fixed:
+  # TODO: at least check that #tag and #children should be called Nx
+  def selector_expectations(expectations = {})
+    3.times {
+      @selector.expect :tag,           expectations[:tag]        || 'div'
+    }
+    2.times {
+      @selector.expect :children,      expectations[:children]   || []
+    }
+    @selector.expect   :attributes,    expectations[:attributes] || {}
   end
 
   after :each do
-    @selector =
+    @selector = nil
     @tag      = nil
   end
 
   describe '#render' do
 
     it 'should render a div tag' do
+      selector_expectations
       @tag.render.must_match /<div>.*<\/div>\n/
     end
 
     it 'should render a div tag with attributes' do
-      @selector.expect :attributes, { 'class' => 'foo' }
+      selector_expectations :attributes => { 'class' => 'foo' }
       @tag.render.must_match /<div class=\"foo\">.*<\/div>\n/
     end
 
     it 'should render a div tag with child element' do
       # TODO: mock child_div?
       child_div = Perseus::Selector.new('div')
-      @selector.expect :children, [child_div]
+      selector_expectations :children =>  [child_div]
       @tag.render.must_match /<div>\n  <div>.*<\/div>\n<\/div>\n/
     end
 
