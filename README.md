@@ -15,3 +15,56 @@ styles = '#foo'
 engine = Perseus::Engine.new(styles)
 engine.render # => <div id="foo"></div>
 ```
+
+### Examples
+
+<table width="100%">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead>
+<tr>
+<th>SASS</th>
+<th>HTML</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<pre style="border: none">
+<code>#foo
+  .bar
+    h1
+      color: red</code>
+</pre>
+</td>
+<td>
+<pre>
+<code>&lt;div id=&quot;foo&quot;&gt;
+  &lt;div class=&quot;bar&quot;&gt;
+    &lt;h1&gt;Lorem ipsum&lt;/h1&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code>
+</pre>
+</td>
+</tr>
+<tr>
+<td>
+<pre style="border: none">
+<code>#foo
+  // @content: Hello World
+  h2
+    color: red</code>
+</pre>
+</td>
+<td>
+<pre>
+<code>&lt;div id=&quot;foo&quot;&gt;
+  &lt;h2&gt;Hello World&lt;/h2&gt;
+&lt;/div&gt;</code>
+</pre>
+</td>
+</tr>
+</tbody>
+</table>
