@@ -85,7 +85,7 @@ describe Perseus::Tag do
 
     it 'returns a string, starting with whitespace' do
       @selector.expect :attributes, { 'foo' => 'bar' }
-      @tag.attributes[0].must_equal ' '
+      @tag.attributes[0,1].must_equal ' '
     end
 
   end
