@@ -1,5 +1,10 @@
-module Perseus
-end
+require 'sass'
+require 'ostruct'
+require 'tilt'
 
-require 'core_ext/hash'
+require 'perseus/errors'
+require 'perseus/struct_with_defaults'
 require 'perseus/engine'
+require 'perseus/file_parser'
+require 'perseus/block'
+require 'perseus/section'
