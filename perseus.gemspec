@@ -17,8 +17,10 @@ Gem::Specification.new do |s|
   s.require_paths = ['lib']
   s.rubyforge_project = '[none]'
 
+  s.add_dependency 'tilt'
   s.add_dependency 'sass'
-  s.add_dependency 'faker'
+  s.add_dependency 'haml'
 
-  s.add_development_dependency 'minitest'
+  s.add_development_dependency 'rspec'
+  s.add_development_dependency 'pry'
 end
