@@ -3,13 +3,7 @@ module Perseus
   class Section
     include StructWithDefaults
 
-    defaults :section      => '',
-             :description  => '',
-             :dependencies => [],
-             :author       => '',
-             :copyright    => '',
-             :license      => '',
-             :version      => ''
+    defaults Perseus.configuration.section_defaults
 
     attr_accessor :blocks
 
