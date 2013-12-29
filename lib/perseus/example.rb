@@ -58,7 +58,6 @@ module Perseus
       rescue => e
         relative_line = e.backtrace.first.split(':').last.to_i
         line          = line + relative_line
-
         raise ExampleParserError.new(
           "Parsing of #{type} example block failed in #{block.file_path}:#{line}.", e
         )

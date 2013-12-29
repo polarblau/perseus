@@ -2,7 +2,9 @@ require 'spec_helper'
 
 describe Perseus::Example do
   
-  let(:block) { double('Perseus::Block', :file_path => '/foo/bar' )            }
+  # TODO: remove duplication
+  
+  let(:block) { double('Perseus::Block', :file_path => '/foo/bar.sass' )       }
   let(:simple_attributes) { { :line => 1                                     } }
   let(:haml_attributes)   { { :line => 1, :haml => '#foo bar'                } }
   let(:html_attributes)   { { :line => 1, :html => '<div id="foo">bar</div>' } }
@@ -50,7 +52,7 @@ describe Perseus::Example do
         example.markup 
       rescue => error
       ensure
-        expect(error.message).to eq("Parsing of haml example block failed in /foo/bar:126.")
+        expect(error.message).to eq("Parsing of haml example block failed in /foo/bar.sass:126.")
       end
     end
     
@@ -104,7 +106,7 @@ describe Perseus::Example do
         example.styles 
       rescue => error
       ensure
-        expect(error.message).to eq("Parsing of sass example block failed in /foo/bar:125.")
+        expect(error.message).to eq("Parsing of sass example block failed in /foo/bar.sass:125.")
       end
     end
     
