@@ -16,6 +16,14 @@ module Perseus
       @attributes[:section]
     end
 
+    def dependencies
+      if @attributes[:dependencies].respond_to? :split
+        @attributes[:dependencies].split(',').map(&:strip)
+      else
+        super
+      end
+    end
+
   end
 
 end

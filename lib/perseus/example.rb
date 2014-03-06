@@ -41,7 +41,18 @@ module Perseus
       return unless type
 
       do_compile = type != STYLES_TARGET_TYPE
-      generate_fragment(type, do_compile) if type
+
+      path = File.dirname(@block.file_path)
+      # TODO: extract
+      Sass.load_paths << path
+      if block.dependencies.any?
+        attributes[type] = block.dependencies.map {|dep|
+          "@import '#{dep}'"
+        }.join("\n") + "\n" + attributes[type]
+      end
+      fragment = generate_fragment(type, do_compile) if type
+      Sass.load_paths.delete(path)
+      fragment
     end
 
     def generate_fragment(type, do_compile)
