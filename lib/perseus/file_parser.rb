@@ -40,7 +40,7 @@ module Perseus
             file_name = File.basename(@file_path, ".*")
             attributes[:section] = humanize(file_name) unless attributes[:section]
             current_section = Section.new(attributes)
-            
+
           else
             # commit the previous current block as we're parsing the next
             current_section.blocks << current_block if current_block && current_block.valid?
@@ -124,14 +124,8 @@ module Perseus
     end
 
     def clean_lines(lines)
-      lines = deflate_lines(lines)
       lines = compact_lines(lines)
       lines = normalize_lines(lines)
-    end
-
-    # convert multiline comments (line breaks) into proper lines
-    def deflate_lines(lines)
-      lines.map {|line| line.split("\n") }.flatten.map(&:chomp)
     end
 
     # remove indicators and other junk
