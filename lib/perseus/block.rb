@@ -27,6 +27,7 @@ module Perseus
 
     def generate_example
       if (example = @attributes[:example])
+        # TODO: use define Perseus::Example as default and simplify?
         example_klass = Perseus.configuration.example_resolver || Example
         example_klass.send(:new, example, self)
       end
