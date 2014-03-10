@@ -17,6 +17,7 @@ Gem::Specification.new do |s|
   s.require_paths = ['lib']
   s.rubyforge_project = '[none]'
 
+  s.add_dependency 'sprockets'
   s.add_dependency 'tilt'
   s.add_dependency 'sass'
   s.add_dependency 'haml'

@@ -1,3 +1,4 @@
+require 'sprockets'
 require 'sass'
 require 'ostruct'
 require 'tilt'
