@@ -44,14 +44,12 @@ module Perseus
 
       path = File.dirname(@block.file_path)
       # TODO: extract
-      Sass.load_paths << path
       if block.dependencies.any?
         attributes[type] = block.dependencies.map {|dep|
           "@import '#{dep}'"
         }.join("\n") + "\n" + attributes[type]
       end
       fragment = generate_fragment(type, do_compile) if type
-      Sass.load_paths.delete(path)
       fragment
     end
 
@@ -64,11 +62,16 @@ module Perseus
 
     def compile(type, source, line)
       begin
-        template      = Tilt[type.to_s].new { source }
-        output        = template.render
+        template = Tilt[type.to_s].new { source }
+        output   = template.render
       rescue => e
-        relative_line = e.backtrace.first.split(':').last.to_i
-        line          = line + relative_line
+        # FIXME: incorrect calculation, doesn't take example sections under
+        # consideration
+        relative_line = 0
+        local_error   = e.backtrace.find { |m| m =~ /\(__TEMPLATE__\):/ }
+        relative_line = local_error.split(':').last.to_i if local_error
+        line          = block.line + @attributes[:line] + relative_line - 1
+
         raise ExampleParserError.new(
           "Parsing of #{type} example block failed in #{block.file_path}:#{line}.", e
         )
