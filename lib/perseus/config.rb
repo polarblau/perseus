@@ -13,7 +13,8 @@ module Perseus
         :extends      => [],
         :includes     => [],
         :arguments    => {},
-        :example      => nil
+        :example      => nil,
+        :line         => nil
       },
       :section_defaults => {
         :section      => '',
@@ -23,7 +24,8 @@ module Perseus
         :copyright    => '',
         :license      => '',
         :version      => '',
-        :file_path    => ''
+        :file_path    => '',
+        :line         => nil
       },
       :example_resolver => nil
     }
